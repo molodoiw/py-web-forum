@@ -1,11 +1,14 @@
 from flask import  Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_login import LoginManager
 
 app = Flask(__name__) # создание объекта на основе класса Flask# __name - директива для запуска файла
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+#login_manager = LoginManager(app)
 
 
 class Entries(db.Model):
@@ -57,6 +60,10 @@ def create_entries():
 @app.route('/user/<string:name>/<int:id>')
 def user(name, id):
     return "User page: " + name + " - " + str(id)
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
