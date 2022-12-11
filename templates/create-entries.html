@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Добавление треда</h1>
+    <form method="post">
+        <input type="text" name="title" id="title" class="form-control" placeholder="Тема"><br>
+        <textarea name="pretext" id="pretext" class="form-control" placeholder="Заголовок"></textarea><br>
+        <textarea name="text" id="text" class="form-control" placeholder="Текст"></textarea><br>
+        <input type="submit" class="btn btn-success" value="Создать">
+    </form>
+</div>
+{% endblock %}

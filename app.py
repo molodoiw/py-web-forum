@@ -1,9 +1,10 @@
-from flask import  Flask, render_template, url_for
+from flask import  Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__) # создание объекта на основе класса Flask# __name - директива для запуска файла
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -23,9 +24,23 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/about')
-def about():
-    return render_template("about.html")
+@app.route('/create-entries', methods=['POST', 'GET'])
+def create_entries():
+    if request.method == "POST":
+        title = request.form['title']
+        pretext = request.form['pretext']
+        text = request.form['text']
+
+        entries = Entries(title=title, pretext=pretext, text=text)
+
+        try:
+            db.session.add(entries)
+            db.session.commit()
+            return redirect('/home')
+        except:
+            return "При создании треда произошла ошибка"
+    else:
+        return render_template("create-entries.html")
 
 
 @app.route('/user/<string:name>/<int:id>')
