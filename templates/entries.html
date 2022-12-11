@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Список тредов
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Список тредов</h1>
+
+    {% for elmnt in entries %}
+    <div class="div.alert.alert-info">
+        <h2>{{   elmnt.title   }}</h2>
+        <p>{{   elmnt.pretext   }}</p>
+        <p><b>Дата публикации: {{   elmnt.date.date()   }}</b></p>
+        <a href="/entries/{{ elmnt.id }}">Подробнее</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -24,6 +24,17 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/entries')
+def entries():
+    entries = Entries.query.order_by(Entries.date.desc()).all()
+    return render_template("entries.html", entries=entries)
+
+
+@app.route('/entries/<int:id>')
+def entries_more(id):
+    entrie = Entries.query.get(id)
+    return render_template("entries_more.html", entrie=entrie)
+
 @app.route('/create-entries', methods=['POST', 'GET'])
 def create_entries():
     if request.method == "POST":
@@ -36,7 +47,7 @@ def create_entries():
         try:
             db.session.add(entries)
             db.session.commit()
-            return redirect('/home')
+            return redirect('/entries')
         except:
             return "При создании треда произошла ошибка"
     else:
